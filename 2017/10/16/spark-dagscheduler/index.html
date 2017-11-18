@@ -9,16 +9,16 @@
 <meta name="keywords" content="spark,stage,rdd,partition,dagscheduler,source_code">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spark_dagscheduler">
-<meta property="og:url" content="http://data-4.github.io/2017/10/16/spark-dagscheduler/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/10/16/spark-dagscheduler/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="基于 spark 1.6.2  面向 Stage 的调度器，负责计算每个 job 的 DAG，并将 DAG 图划分为不同的 stage，对哪些 RDD 以及相应输出进行记录，寻找一个运行相应 job 所需要的最小 stage。然后将 stage 以 TaskSet 的形式提交到下层的 TaskScheduler 进行具体的 task 调度。每个 TaskSet 包含整个可以独立运行的 task，">
-<meta property="og:image" content="http://data-4.github.io/images/procesure.jpg">
-<meta property="og:image" content="http://data-4.github.io/2017/10/16/spark-dagscheduler/images/procesure.jpg">
-<meta property="og:updated_time" content="2017-11-18T13:18:37.000Z">
+<meta property="og:image" content="http://yoursite.com/2017/10/16/images/procesure.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/10/16/spark-dagscheduler/images/procesure.jpg">
+<meta property="og:updated_time" content="2017-11-18T13:28:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark_dagscheduler">
 <meta name="twitter:description" content="基于 spark 1.6.2  面向 Stage 的调度器，负责计算每个 job 的 DAG，并将 DAG 图划分为不同的 stage，对哪些 RDD 以及相应输出进行记录，寻找一个运行相应 job 所需要的最小 stage。然后将 stage 以 TaskSet 的形式提交到下层的 TaskScheduler 进行具体的 task 调度。每个 TaskSet 包含整个可以独立运行的 task，">
-<meta name="twitter:image" content="http://data-4.github.io/images/procesure.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2017/10/16/images/procesure.jpg">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -61,7 +61,7 @@
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://data-4.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
       </div>
     </div>
   </div>
@@ -104,7 +104,7 @@
 <li>Cleanup: 如果上游依赖的 Job 处理完成后，下游的数据会被清理掉，防止长驻服务的内存泄漏</li>
 </ul>
 <p>为了能够从错误中进行恢复，同一个 Stage 可能会被运行多次，每一次就是一个 “attempts”。如果 <code>TaskScheduler</code> 汇报某个 task 失败的原因是因为依赖的前一个 Stage 的输出文件已经不见了，那么 <code>DAGScheduler</code> 会对前一个 Stage 重新进行提交。这通过 <code>CompletionEveent</code> 以及 <code>FetchFailed</code> 或者 <code>ExecutorLost</code> 事件来完成。<code>DAGScheduler</code> 会等待一小段时间来判断是否还有其他 task 需要重试，然后将所有失败的 task 进行重试。在这一过程中，我们需要重新对之前清理过的 Stage 进行计算。由于之前的 “attempt” 可能还在运行，所以需要特别注意</p>
-<p><img src="/images/procesure.jpg" alt="processure"><br>kk<br><img src="images/procesure.jpg" alt="processure"></p>
+<p><img src="../images/procesure.jpg" alt="processure"><br>kk<br><img src="images/procesure.jpg" alt="processure"></p>
 <p>上面的图是 DAGScheduler.scala 的主题脉络，当然还包括其他诸如 <code>taskStarted</code>, <code>taskGettingResult</code>, <code>taskEnded</code>, <code>executorZHeatbeatReceived</code>, <code>executorLost</code>, <code>executorAdded</code>, <code>taskSetFailed</code>, 等函数</p>
 <blockquote>
 <p>其中带箭头的虚线为消息调用；带箭头的实线为直接调用，无箭头的实线表示方法申明和内部的主要实现（比如 <code>getShuffleMapStage</code> 中包括了 <code>getAncestorShuffleDependencies</code> 和 <code>newOrUsedShuffleStage</code>)</p>
@@ -172,7 +172,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://data-4.github.io/2017/10/16/spark-dagscheduler/" data-id="cja5d0a14000244fypueht1s3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/10/16/spark-dagscheduler/" data-id="cja5d8i3u0002eufypha6xjcn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dagscheduler/">dagscheduler</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/partition/">partition</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rdd/">rdd</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/source-code/">source_code</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stage/">stage</a></li></ul>
