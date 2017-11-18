@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://data-4.github.io/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
@@ -53,7 +53,7 @@
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://data-4.github.io"></form>
       </div>
     </div>
   </div>
@@ -96,9 +96,57 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/10/22/hello-world/" data-id="cj927dcvu0000zrfy8mht557x" class="article-share-link">Share</a>
+      <a data-url="http://data-4.github.io/2017/10/22/hello-world/" data-id="cja530knx000jlbfyie03p6a0" class="article-share-link">Share</a>
       
       
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-spark-dagscheduler" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/16/spark-dagscheduler/" class="article-date">
+  <time datetime="2017-10-16T12:01:20.000Z" itemprop="datePublished">2017-10-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/16/spark-dagscheduler/">spark_dagscheduler</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>基于 spark 1.6.2</p>
+</blockquote>
+<p>面向 Stage 的调度器，负责计算每个 job 的 DAG，并将 DAG 图划分为不同的 stage，对哪些 RDD 以及相应输出进行记录，寻找一个运行相应 job 所需要的最小 stage。然后将 <code>stage</code> 以 <code>TaskSet</code> 的形式提交到下层的 <code>TaskScheduler</code> 进行具体的 task 调度。每个 <code>TaskSet</code> 包含整个可以独立运行的 task，这些 task 能够利用集群上已有的数据立即运行起来，如果集群上已有的数据已经不存在了，那么当前 task 就会失败。</p>
+<p>Spark 的 stage 以 RDD 的 shuffle 为界进行划分。窄依赖的 RDD 操作会被穿起来放到一个 task 中，比如 <code>map()</code>, <code>filter()</code> 这样的操作。但是需要使用到 shuffle 依赖的操作，需要多个 stage（至少一个将中间文件写到特定的地方，另外一个从特定的地方进行读取）。每个 Stage，只会对其他 Stage 有 shuffle 依赖，在同一个 stage 中会进行很多计算。实际的将计算串起来的操作在 RDD.compute 中完成。</p>
+<p><code>DAGScheduler</code> 同样会基于缓存状态决定 task 希望运行在那（preferred location），如果 shuffle 输出文件丢失造成的 Stage 失败，会重新被提交。在 <strong>Stage 内部</strong> 的不是由 shuffle 文件丢失造成的失败，由 <code>TaskScheduler</code> 来完成，<code>TaskScheduler</code> 会在取消整个 stage 前进行小部分重试。<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/10/16/spark-dagscheduler/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://data-4.github.io/2017/10/16/spark-dagscheduler/" data-id="cja538l2d00003vfya4c8dv4f" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dagscheduler/">dagscheduler</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/partition/">partition</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rdd/">rdd</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/source-code/">source_code</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stage/">stage</a></li></ul>
+
     </footer>
   </div>
   
@@ -112,12 +160,33 @@
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dagscheduler/">dagscheduler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/partition/">partition</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rdd/">rdd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/source-code/">source_code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stage/">stage</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/dagscheduler/" style="font-size: 10px;">dagscheduler</a> <a href="/tags/partition/" style="font-size: 10px;">partition</a> <a href="/tags/rdd/" style="font-size: 10px;">rdd</a> <a href="/tags/source-code/" style="font-size: 10px;">source_code</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/stage/" style="font-size: 10px;">stage</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -137,6 +206,10 @@
         
           <li>
             <a href="/2017/10/22/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/16/spark-dagscheduler/">spark_dagscheduler</a>
           </li>
         
       </ul>
