@@ -13,7 +13,8 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="基于 spark 1.6.2  面向 Stage 的调度器，负责计算每个 job 的 DAG，并将 DAG 图划分为不同的 stage，对哪些 RDD 以及相应输出进行记录，寻找一个运行相应 job 所需要的最小 stage。然后将 stage 以 TaskSet 的形式提交到下层的 TaskScheduler 进行具体的 task 调度。每个 TaskSet 包含整个可以独立运行的 task，">
 <meta property="og:image" content="http://yoursite.com/images/procesure.jpg">
-<meta property="og:updated_time" content="2017-11-19T05:36:49.000Z">
+<meta property="og:image" content="http://yoursite.com/images/spark_stage.jpg">
+<meta property="og:updated_time" content="2017-11-19T11:57:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark_dagscheduler">
 <meta name="twitter:description" content="基于 spark 1.6.2  面向 Stage 的调度器，负责计算每个 job 的 DAG，并将 DAG 图划分为不同的 stage，对哪些 RDD 以及相应输出进行记录，寻找一个运行相应 job 所需要的最小 stage。然后将 stage 以 TaskSet 的形式提交到下层的 TaskScheduler 进行具体的 task 调度。每个 TaskSet 包含整个可以独立运行的 task，">
@@ -165,13 +166,13 @@
 <p>  SparkContext 中会根据模式生成和注册相应的 backend 以及 taskscheduler</p>
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ol>
 <li>如果一个 Stage 有多个 RDD，那么这些 RDD 是在同一个 TaskSet 中吗</li>
-<li>如何模拟 <code>r2 = r0.reduceByKey; r3 = r1.reduceByKey; r4 = r2.map(xx); r5 = r4.union(r3); r6 = r5.map; r7 = r6.reduceByKey</code> 的 Stage 划分和生成（会有多少个 Stage，每个 Stage 分别包含哪些 RDD，以及整个 DAG 怎么整合起来的）</li>
+<li>如何模拟 <code>r2 = r0.reduceByKey; r3 = r1.reduceByKey; r4 = r2.map(xx); r5 = r4.union(r3); r6 = r5.map; r7 = r6.reduceByKey</code> 的 Stage 划分和生成（会有多少个 Stage，每个 Stage 分别包含哪些 RDD，以及整个 DAG 怎么整合起来的）<br><img src="/images/spark_stage.jpg" alt=""></li>
 </ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/10/16/spark-dagscheduler/" data-id="cja6bw1ll0002vefylaoyfpx3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/10/16/spark-dagscheduler/" data-id="cja6pfpu10002fmfya1msu3mh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dagscheduler/">dagscheduler</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/partition/">partition</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rdd/">rdd</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/source-code/">source_code</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stage/">stage</a></li></ul>
@@ -180,20 +181,6 @@
   </div>
   
     
-<nav id="article-nav">
-  
-    <a href="/2017/10/22/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Hello World
-        
-      </div>
-    </a>
-  
-  
-</nav>
-
   
 </article>
 
@@ -238,10 +225,6 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2017/10/22/hello-world/">Hello World</a>
-          </li>
         
           <li>
             <a href="/2017/10/16/spark-dagscheduler/">spark_dagscheduler</a>
